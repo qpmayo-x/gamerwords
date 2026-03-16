@@ -122,7 +122,7 @@ export function App() {
           <Dictionary learningLang={learningLang} />
         )}
         {page === 'settings' && (
-          <Settings currentTheme={theme} setTheme={setThemeState} />
+          <Settings currentTheme={theme} setTheme={setThemeState} learningLang={learningLang} setLearningLang={setLearningLang} />
         )}
         </div>
       </main>

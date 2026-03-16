@@ -1,11 +1,39 @@
 import { THEMES } from '../lib/themes.js'
+import { LANGUAGES } from '../lib/slang-data.js'
 
-export function Settings({ currentTheme, setTheme }) {
+export function Settings({ currentTheme, setTheme, learningLang, setLearningLang }) {
   return (
     <div>
       <h2 style={{ fontSize: 22, fontWeight: 800, color: 'var(--color-text-primary)', marginBottom: 24 }}>
         {'\u{2699}\u{FE0F}'} Settings
       </h2>
+
+      {/* Language picker */}
+      <div style={{
+        background: 'var(--color-bg-card)', borderRadius: 16, padding: 16,
+        border: '1px solid var(--color-border)', boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+        marginBottom: 16,
+      }}>
+        <div style={{ color: 'var(--color-text-secondary)', fontSize: 13, marginBottom: 12, fontWeight: 600 }}>
+          Learning Language
+        </div>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+          {Object.entries(LANGUAGES).filter(([code]) => code !== 'en').map(([code, lang]) => (
+            <button
+              key={code}
+              onClick={() => setLearningLang(code)}
+              style={{
+                padding: '8px 14px', borderRadius: 8, border: 'none', cursor: 'pointer',
+                fontSize: 13, fontWeight: code === learningLang ? 700 : 400,
+                background: code === learningLang ? 'var(--color-accent)' : 'var(--color-border)',
+                color: code === learningLang ? '#fff' : 'var(--color-text-secondary)',
+              }}
+            >
+              {lang.flag} {lang.native}
+            </button>
+          ))}
+        </div>
+      </div>
 
       {/* Theme picker */}
       <div style={{
@@ -53,8 +81,8 @@ export function Settings({ currentTheme, setTheme }) {
           About
         </div>
         <div style={{ color: 'var(--color-text-muted)', fontSize: 12, lineHeight: 1.6 }}>
-          GamerWords v1.0.0<br />
-          56 slang terms across 9 languages<br />
+          GamerWords v1.1.0<br />
+          273 slang terms across 9 languages<br />
           Made for gamers, by gamers
         </div>
       </div>
