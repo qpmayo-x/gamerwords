@@ -18,14 +18,25 @@ export function NavBar({ current, onNavigate }) {
             key={tab.id}
             onClick={() => onNavigate(tab.id)}
             style={{
-              flex: 1, padding: '10px 0', border: 'none',
+              flex: 1, padding: '10px 0 8px', border: 'none',
               background: 'transparent', cursor: 'pointer',
               display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2,
               color: current === tab.id ? 'var(--color-accent)' : 'var(--color-text-muted)',
-              fontSize: 12, fontWeight: current === tab.id ? 700 : 400,
+              fontSize: 11, fontWeight: current === tab.id ? 700 : 400,
+              transition: 'color 0.2s ease',
             }}
           >
-            <span style={{ fontSize: 20 }}>{tab.icon}</span>
+            <span style={{ fontSize: 20, position: 'relative', display: 'inline-block' }}>
+              {tab.icon}
+              {current === tab.id && (
+                <span style={{
+                  position: 'absolute', bottom: -4, left: '50%', transform: 'translateX(-50%)',
+                  width: 5, height: 5, borderRadius: '50%',
+                  background: 'var(--color-accent)',
+                  boxShadow: '0 0 6px var(--color-accent)',
+                }} />
+              )}
+            </span>
             {tab.label}
           </button>
         ))}

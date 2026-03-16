@@ -56,9 +56,12 @@ export function FillBlank({ question, onAnswer }) {
             if (option === question.correctAnswer) { bg = 'rgba(87,242,135,0.15)'; border = 'var(--color-success)' }
             else if (option === selected) { bg = 'rgba(237,66,69,0.15)'; border = 'var(--color-error)' }
           }
+          const answerClass = showResult && option === question.correctAnswer ? 'answer-correct quiz-option' :
+            showResult && option === selected && option !== question.correctAnswer ? 'answer-wrong quiz-option' : 'quiz-option'
           return (
             <button
               key={i}
+              class={answerClass}
               onClick={() => handleSelect(option)}
               style={{
                 padding: 16, borderRadius: 12, border: `2px solid ${border}`,

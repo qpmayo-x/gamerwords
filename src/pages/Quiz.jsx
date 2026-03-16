@@ -36,7 +36,12 @@ export function Quiz({ learningLang, difficulty, category, reviewMode, onComplet
   }, [learningLang, difficulty, category, reviewMode])
 
   if (questions.length === 0) {
-    return <div style={{ textAlign: 'center', color: 'var(--color-text-secondary)', padding: 40 }}>Loading...</div>
+    return (
+      <div style={{ textAlign: 'center', padding: 40 }}>
+        <div class="spinner" />
+        <p style={{ color: 'var(--color-text-secondary)', marginTop: 16, fontSize: 14 }}>Loading quiz...</p>
+      </div>
+    )
   }
 
   if (finished) {
@@ -129,7 +134,9 @@ export function Quiz({ learningLang, difficulty, category, reviewMode, onComplet
     return (
       <div>
         {renderProgressBar()}
-        <FillBlank question={q} onAnswer={(isCorrect) => advance(isCorrect)} />
+        <div class="page-enter" key={currentIdx}>
+          <FillBlank question={q} onAnswer={(isCorrect) => advance(isCorrect)} />
+        </div>
       </div>
     )
   }
@@ -139,10 +146,12 @@ export function Quiz({ learningLang, difficulty, category, reviewMode, onComplet
     return (
       <div>
         {renderProgressBar()}
+        <div class="page-enter" key={currentIdx}>
         <MatchPairs question={q} onAnswer={(correctCount) => {
           const isCorrect = correctCount === q.pairs.length
           advance(isCorrect)
         }} />
+        </div>
       </div>
     )
   }
@@ -164,12 +173,16 @@ export function Quiz({ learningLang, difficulty, category, reviewMode, onComplet
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 24 }}>
         <button onClick={onBack} style={{
           background: 'none', border: 'none', color: 'var(--color-text-secondary)',
-          fontSize: 20, cursor: 'pointer', padding: 0,
+          fontSize: 20, cursor: 'pointer', padding: 8, minWidth: 40, minHeight: 40,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
         }}>{'\u2190'}</button>
-        <div style={{ flex: 1, height: 8, background: 'var(--color-border)', borderRadius: 4 }}>
+        <div style={{ flex: 1, height: 8, background: 'var(--color-border)', borderRadius: 4, overflow: 'hidden' }}>
           <div style={{
             width: `${((currentIdx) / questions.length) * 100}%`,
-            height: '100%', background: 'var(--color-accent)', borderRadius: 4,
+            height: '100%',
+            background: 'linear-gradient(90deg, var(--color-accent), #a855f7)',
+            boxShadow: '0 0 8px rgba(108, 99, 255, 0.4)',
+            borderRadius: 4,
             transition: 'width 0.3s ease',
           }} />
         </div>
@@ -183,6 +196,7 @@ export function Quiz({ learningLang, difficulty, category, reviewMode, onComplet
   return (
     <div>
       {renderProgressBar()}
+      <div class="page-enter" key={currentIdx}>
 
       {/* Question */}
       <div style={{ textAlign: 'center', marginBottom: 32 }}>
@@ -208,9 +222,12 @@ export function Quiz({ learningLang, difficulty, category, reviewMode, onComplet
             if (option === q.correctAnswer) { bg = 'rgba(87,242,135,0.15)'; border = 'var(--color-success)' }
             else if (option === selected) { bg = 'rgba(237,66,69,0.15)'; border = 'var(--color-error)' }
           }
+          const answerClass = showResult && option === q.correctAnswer ? 'answer-correct quiz-option' :
+            showResult && option === selected && option !== q.correctAnswer ? 'answer-wrong quiz-option' : 'quiz-option'
           return (
             <button
               key={i}
+              class={answerClass}
               onClick={() => handleSelect(option)}
               style={{
                 padding: 16, borderRadius: 12, border: `2px solid ${border}`,
@@ -223,6 +240,7 @@ export function Quiz({ learningLang, difficulty, category, reviewMode, onComplet
             </button>
           )
         })}
+      </div>
       </div>
     </div>
   )

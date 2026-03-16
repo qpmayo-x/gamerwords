@@ -31,11 +31,11 @@ export function Dictionary({ learningLang }) {
       />
 
       {/* Category filter */}
-      <div style={{ display: 'flex', gap: 6, marginBottom: 16, overflowX: 'auto', paddingBottom: 4 }}>
+      <div class="hide-scrollbar" style={{ display: 'flex', gap: 6, marginBottom: 16, overflowX: 'auto', paddingBottom: 4 }}>
         <button
           onClick={() => setCategory(null)}
           style={{
-            padding: '6px 12px', borderRadius: 16, border: 'none', cursor: 'pointer',
+            padding: '8px 14px', borderRadius: 16, border: 'none', cursor: 'pointer',
             fontSize: 12, whiteSpace: 'nowrap',
             background: !category ? 'var(--color-accent)' : 'var(--color-border)',
             color: !category ? '#fff' : 'var(--color-text-secondary)',
@@ -48,7 +48,7 @@ export function Dictionary({ learningLang }) {
               key={cat}
               onClick={() => setCategory(cat)}
               style={{
-                padding: '6px 12px', borderRadius: 16, border: 'none', cursor: 'pointer',
+                padding: '8px 14px', borderRadius: 16, border: 'none', cursor: 'pointer',
                 fontSize: 12, whiteSpace: 'nowrap', textTransform: 'capitalize',
                 background: category === cat ? 'var(--color-accent)' : 'var(--color-border)',
                 color: category === cat ? '#fff' : 'var(--color-text-secondary)',
@@ -63,6 +63,7 @@ export function Dictionary({ learningLang }) {
         {filtered.map(term => (
           <div
             key={term.term}
+            class="card-interactive"
             style={{
               background: 'var(--color-bg-card)', borderRadius: 12, padding: '14px 16px',
               border: '1px solid var(--color-border)',

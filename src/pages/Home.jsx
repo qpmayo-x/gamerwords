@@ -43,9 +43,9 @@ export function Home({ streak, todayQuizCount, freeLimit, learningLang, setLearn
       {/* Streak */}
       <div style={{
         background: 'var(--color-bg-card)', borderRadius: 16, padding: 20,
-        textAlign: 'center', marginBottom: 16, border: '1px solid var(--color-border)',
+        textAlign: 'center', marginBottom: 16, border: '1px solid var(--color-border)', boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
       }}>
-        <div style={{ fontSize: 48 }}>{streak.current > 0 ? '\u{1F525}' : '\u{2744}\u{FE0F}'}</div>
+        <div class={streak.current > 0 ? 'fire-flicker' : ''} style={{ fontSize: 48 }}>{streak.current > 0 ? '\u{1F525}' : '\u{2744}\u{FE0F}'}</div>
         <div style={{ fontSize: 32, fontWeight: 800, color: 'var(--color-text-primary)' }}>
           {streak.current || 0}
         </div>
@@ -62,7 +62,7 @@ export function Home({ streak, todayQuizCount, freeLimit, learningLang, setLearn
       {/* Language Picker */}
       <div style={{
         background: 'var(--color-bg-card)', borderRadius: 16, padding: 16,
-        marginBottom: 16, border: '1px solid var(--color-border)',
+        marginBottom: 16, border: '1px solid var(--color-border)', boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
       }}>
         <div style={{ color: 'var(--color-text-secondary)', fontSize: 12, marginBottom: 8 }}>I'm learning:</div>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
@@ -71,7 +71,7 @@ export function Home({ streak, todayQuizCount, freeLimit, learningLang, setLearn
               key={code}
               onClick={() => setLearningLang(code)}
               style={{
-                padding: '6px 12px', borderRadius: 8, border: 'none', cursor: 'pointer',
+                padding: '8px 14px', borderRadius: 8, border: 'none', cursor: 'pointer',
                 fontSize: 13, fontWeight: code === learningLang ? 700 : 400,
                 background: code === learningLang ? 'var(--color-accent)' : 'var(--color-border)',
                 color: code === learningLang ? '#fff' : 'var(--color-text-secondary)',
@@ -86,7 +86,7 @@ export function Home({ streak, todayQuizCount, freeLimit, learningLang, setLearn
       {/* Difficulty Picker */}
       <div style={{
         background: 'var(--color-bg-card)', borderRadius: 16, padding: 16,
-        marginBottom: 16, border: '1px solid var(--color-border)',
+        marginBottom: 16, border: '1px solid var(--color-border)', boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
       }}>
         <div style={{ color: 'var(--color-text-secondary)', fontSize: 12, marginBottom: 8 }}>Difficulty:</div>
         <div style={{ display: 'flex', gap: 8 }}>
@@ -112,7 +112,7 @@ export function Home({ streak, todayQuizCount, freeLimit, learningLang, setLearn
       {/* Category Picker */}
       <div style={{
         background: 'var(--color-bg-card)', borderRadius: 16, padding: 16,
-        marginBottom: 16, border: '1px solid var(--color-border)',
+        marginBottom: 16, border: '1px solid var(--color-border)', boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
       }}>
         <div style={{ color: 'var(--color-text-secondary)', fontSize: 12, marginBottom: 8 }}>Category:</div>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
@@ -124,7 +124,7 @@ export function Home({ streak, todayQuizCount, freeLimit, learningLang, setLearn
                 key={cat}
                 onClick={() => setCategory(cat)}
                 style={{
-                  padding: '5px 10px', borderRadius: 8, border: 'none', cursor: 'pointer',
+                  padding: '8px 12px', borderRadius: 8, border: 'none', cursor: 'pointer',
                   fontSize: 12, fontWeight: active ? 700 : 400,
                   background: active ? 'var(--color-accent)' : 'var(--color-border)',
                   color: active ? '#fff' : 'var(--color-text-secondary)',
@@ -142,9 +142,10 @@ export function Home({ streak, todayQuizCount, freeLimit, learningLang, setLearn
       <button
         onClick={onStartQuiz}
         disabled={!canQuiz}
+        class={canQuiz ? 'cta-pulse' : ''}
         style={{
           width: '100%', padding: 16, borderRadius: 12, border: 'none',
-          background: canQuiz ? 'var(--color-accent)' : 'var(--color-border)',
+          background: canQuiz ? 'linear-gradient(135deg, var(--color-accent), #a855f7)' : 'var(--color-border)',
           color: canQuiz ? '#fff' : 'var(--color-text-muted)',
           fontSize: 18, fontWeight: 700, cursor: canQuiz ? 'pointer' : 'default',
           marginBottom: 12,

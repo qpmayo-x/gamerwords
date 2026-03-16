@@ -6,7 +6,7 @@ export function LevelBadge({ totalXP }) {
   return (
     <div style={{
       background: 'var(--color-bg-card)', borderRadius: 16, padding: 16,
-      marginBottom: 16, border: '1px solid var(--color-border)',
+      marginBottom: 16, border: '1px solid var(--color-border)', boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
     }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>

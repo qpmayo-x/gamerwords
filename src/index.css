@@ -33,3 +33,95 @@ body {
   max-width: 480px;
   margin: 0 auto;
 }
+
+/* Button tactile feedback */
+button {
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.1s ease, opacity 0.1s ease;
+}
+button:active:not(:disabled) {
+  transform: scale(0.95);
+  opacity: 0.85;
+}
+
+/* Page & question transitions */
+@keyframes pageIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.page-enter { animation: pageIn 0.25s ease-out; }
+
+/* Quiz answer feedback */
+@keyframes correctPop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+@keyframes wrongShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+.answer-correct { animation: correctPop 0.3s ease; }
+.answer-wrong { animation: wrongShake 0.3s ease; }
+
+/* Quiz option hover */
+@media (hover: hover) {
+  .quiz-option:hover:not(:disabled) {
+    border-color: var(--color-accent) !important;
+    transform: translateX(4px);
+  }
+}
+
+/* Loading spinner */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.spinner {
+  width: 32px; height: 32px;
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  margin: 0 auto;
+}
+
+/* CTA pulse */
+@keyframes subtlePulse {
+  0%, 100% { box-shadow: 0 4px 20px rgba(108, 99, 255, 0.3); }
+  50% { box-shadow: 0 4px 28px rgba(108, 99, 255, 0.5); }
+}
+.cta-pulse { animation: subtlePulse 2.5s ease-in-out infinite; }
+
+/* Card interactive */
+.card-interactive {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.card-interactive:active {
+  transform: scale(0.98);
+}
+@media (hover: hover) {
+  .card-interactive:hover {
+    box-shadow: 0 2px 12px rgba(108, 99, 255, 0.15);
+    transform: translateY(-1px);
+  }
+}
+
+/* Hide scrollbar */
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+
+/* Streak fire flicker */
+@keyframes fireFlicker {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1) rotate(3deg); }
+}
+.fire-flicker { animation: fireFlicker 1.5s ease-in-out infinite; }
+
+/* Input focus */
+input:focus {
+  border-color: var(--color-accent) !important;
+  box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+}

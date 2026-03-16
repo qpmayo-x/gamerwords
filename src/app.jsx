@@ -89,6 +89,7 @@ export function App() {
   return (
     <>
       <main style="flex:1;padding:16px;padding-bottom:80px;">
+        <div class="page-enter" key={page}>
         {page === 'home' && (
           <Home
             streak={streak}
@@ -123,6 +124,7 @@ export function App() {
         {page === 'settings' && (
           <Settings currentTheme={theme} setTheme={setThemeState} />
         )}
+        </div>
       </main>
       <NavBar current={page} onNavigate={setPage} />
     </>
