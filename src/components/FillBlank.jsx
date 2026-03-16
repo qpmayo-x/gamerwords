@@ -13,65 +13,48 @@ export function FillBlank({ question, lang, onAnswer }) {
 
     setTimeout(() => {
       onAnswer(isCorrect)
-    }, 1000)
+    }, 1200)
   }
+
+  // Highlight the target term in the example sentence
+  const termRegex = new RegExp(`(${question.term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'i')
+  const parts = question.question.split(termRegex)
 
   return (
     <div>
       <div style={{ textAlign: 'center', marginBottom: 28 }}>
-        <p style={{ color: 'var(--color-text-secondary)', fontSize: 13, marginBottom: 12 }}>
-          {t(lang, 'fillBlank')}
+        {/* Instruction */}
+        <p style={{ color: 'var(--color-text-secondary)', fontSize: 13, marginBottom: 16 }}>
+          {t(lang, 'whatDoesMean')}
         </p>
 
-        {/* Translation as main hint */}
-        {question.hint && (
-          <div style={{
-            fontSize: 24, fontWeight: 800, color: 'var(--color-accent)',
-            marginBottom: 16,
-          }}>
-            {question.hint}
-          </div>
-        )}
+        {/* The target term, large */}
+        <div style={{
+          fontSize: 28, fontWeight: 800, color: 'var(--color-text-primary)',
+          marginBottom: 16,
+        }}>
+          {question.term}
+        </div>
 
-        {/* Usage note */}
-        {question.usageNote && (
-          <p style={{ color: 'var(--color-text-secondary)', fontSize: 13, marginBottom: 16, lineHeight: 1.5 }}>
-            {question.usageNote}
-          </p>
-        )}
-
-        {/* English sentence with blank */}
+        {/* Example sentence with term highlighted */}
         <div style={{
           background: 'var(--color-bg-card)', borderRadius: 12, padding: 16,
           border: '1px solid var(--color-border)',
         }}>
           <p style={{
-            fontSize: 16, fontWeight: 600, color: 'var(--color-text-primary)',
-            lineHeight: 1.6,
+            fontSize: 14, color: 'var(--color-text-secondary)',
+            lineHeight: 1.6, fontStyle: 'italic',
           }}>
-            {question.question.split('___').map((part, i, arr) => (
-              <span key={i}>
-                {part}
-                {i < arr.length - 1 && (
-                  <span style={{
-                    display: 'inline-block',
-                    minWidth: 70,
-                    borderBottom: '3px solid var(--color-accent)',
-                    color: showResult ? 'var(--color-success)' : 'var(--color-accent)',
-                    fontWeight: 800,
-                    padding: '0 4px',
-                    margin: '0 4px',
-                  }}>
-                    {showResult ? question.correctAnswer : '\u00A0\u00A0\u00A0'}
-                  </span>
-                )}
-              </span>
-            ))}
+            "{parts.map((part, i) =>
+              termRegex.test(part)
+                ? <span key={i} style={{ color: 'var(--color-accent)', fontWeight: 700, fontStyle: 'normal' }}>{part}</span>
+                : <span key={i}>{part}</span>
+            )}"
           </p>
         </div>
       </div>
 
-      {/* Options */}
+      {/* Options — target language translations */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {question.options.map((option, i) => {
           let bg = 'var(--color-bg-card)'

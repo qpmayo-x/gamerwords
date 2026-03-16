@@ -88,18 +88,16 @@ export function generateFillBlank(terms, targetLang, count = 5) {
   const selected = pickRandom(available, Math.min(count, available.length))
 
   return selected.map(term => {
-    const correctAnswer = term.term
-    const sentence = term.example.replace(new RegExp(term.term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i'), '___')
+    const correctAnswer = term.translations[targetLang]
     const wrongPool = available.filter(t => t.term !== term.term)
-    const wrongAnswers = pickUniqueAnswers(wrongPool, 'term', 3, [correctAnswer])
+    const wrongAnswers = pickUniqueAnswers(wrongPool, t => t.translations[targetLang], 3, [correctAnswer])
     const options = shuffle([correctAnswer, ...wrongAnswers])
 
     return {
       type: 'fill_blank',
-      question: sentence,
+      term: term.term,
+      question: term.example,
       correctAnswer,
-      hint: term.translations[targetLang],
-      usageNote: term.usageNote || '',
       options,
       category: term.category,
     }

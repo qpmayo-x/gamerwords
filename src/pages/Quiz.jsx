@@ -97,7 +97,7 @@ export function Quiz({ learningLang, difficulty, category, reviewMode, onComplet
   function advance(isCorrect) {
     if (isCorrect) playCorrect()
     else playWrong()
-    const termName = q.type === 'match_pairs' ? null : (q.type === 'reverse' ? q.correctAnswer : q.question)
+    const termName = q.type === 'match_pairs' ? null : q.type === 'fill_blank' ? q.term : (q.type === 'reverse' ? q.correctAnswer : q.question)
     setAnswers(prev => [...prev, { question: q.question || 'match', selected: null, correct: null, isCorrect, term: termName }])
 
     // Save missed terms for review
