@@ -1,7 +1,6 @@
 export function NavBar({ current, onNavigate }) {
   const tabs = [
     { id: 'home', label: 'Home', icon: '\u{1F3E0}' },
-    { id: 'quiz', label: 'Quiz', icon: '\u{1F3AF}' },
     { id: 'dictionary', label: 'Dictionary', icon: '\u{1F4D6}' },
     { id: 'settings', label: 'Settings', icon: '\u{2699}\u{FE0F}' },
   ]
