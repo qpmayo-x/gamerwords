@@ -112,7 +112,19 @@ export function generateMatchPairs(terms, targetLang, count = 2) {
 
   const sets = []
   for (let i = 0; i < count; i++) {
-    const selected = pickRandom(available, 5)
+    // Pick 5 terms with unique translations to avoid ambiguous matches
+    const shuffled = shuffle(available)
+    const selected = []
+    const usedTranslations = new Set()
+    for (const term of shuffled) {
+      const trans = term.translations[targetLang]
+      if (!usedTranslations.has(trans)) {
+        usedTranslations.add(trans)
+        selected.push(term)
+        if (selected.length >= 5) break
+      }
+    }
+    if (selected.length < 5) continue
     const pairs = selected.map(term => ({
       term: term.term,
       translation: term.translations[targetLang],
