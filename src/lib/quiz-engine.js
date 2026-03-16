@@ -99,6 +99,7 @@ export function generateFillBlank(terms, targetLang, count = 5) {
       question: sentence,
       correctAnswer,
       hint: term.translations[targetLang],
+      usageNote: term.usageNote || '',
       options,
       category: term.category,
     }

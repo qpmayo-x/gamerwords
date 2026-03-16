@@ -18,39 +18,57 @@ export function FillBlank({ question, lang, onAnswer }) {
 
   return (
     <div>
-      {/* Sentence with blank */}
-      <div style={{ textAlign: 'center', marginBottom: 32 }}>
-        <p style={{ color: 'var(--color-text-secondary)', fontSize: 13, marginBottom: 8 }}>
+      <div style={{ textAlign: 'center', marginBottom: 28 }}>
+        <p style={{ color: 'var(--color-text-secondary)', fontSize: 13, marginBottom: 12 }}>
           {t(lang, 'fillBlank')}
         </p>
-        <h2 style={{
-          fontSize: 22, fontWeight: 700, color: 'var(--color-text-primary)',
-          lineHeight: 1.5,
-        }}>
-          {question.question.split('___').map((part, i, arr) => (
-            <span key={i}>
-              {part}
-              {i < arr.length - 1 && (
-                <span style={{
-                  display: 'inline-block',
-                  minWidth: 80,
-                  borderBottom: '3px solid var(--color-accent)',
-                  color: showResult ? 'var(--color-success)' : 'var(--color-accent)',
-                  fontWeight: 800,
-                  padding: '0 4px',
-                  margin: '0 4px',
-                }}>
-                  {showResult ? question.correctAnswer : '\u00A0\u00A0\u00A0'}
-                </span>
-              )}
-            </span>
-          ))}
-        </h2>
+
+        {/* Translation as main hint */}
         {question.hint && (
-          <p style={{ color: 'var(--color-accent)', fontSize: 16, fontWeight: 600, marginTop: 12 }}>
-            {'\u{1F4A1}'} {question.hint}
+          <div style={{
+            fontSize: 24, fontWeight: 800, color: 'var(--color-accent)',
+            marginBottom: 16,
+          }}>
+            {question.hint}
+          </div>
+        )}
+
+        {/* Usage note */}
+        {question.usageNote && (
+          <p style={{ color: 'var(--color-text-secondary)', fontSize: 13, marginBottom: 16, lineHeight: 1.5 }}>
+            {question.usageNote}
           </p>
         )}
+
+        {/* English sentence with blank */}
+        <div style={{
+          background: 'var(--color-bg-card)', borderRadius: 12, padding: 16,
+          border: '1px solid var(--color-border)',
+        }}>
+          <p style={{
+            fontSize: 16, fontWeight: 600, color: 'var(--color-text-primary)',
+            lineHeight: 1.6,
+          }}>
+            {question.question.split('___').map((part, i, arr) => (
+              <span key={i}>
+                {part}
+                {i < arr.length - 1 && (
+                  <span style={{
+                    display: 'inline-block',
+                    minWidth: 70,
+                    borderBottom: '3px solid var(--color-accent)',
+                    color: showResult ? 'var(--color-success)' : 'var(--color-accent)',
+                    fontWeight: 800,
+                    padding: '0 4px',
+                    margin: '0 4px',
+                  }}>
+                    {showResult ? question.correctAnswer : '\u00A0\u00A0\u00A0'}
+                  </span>
+                )}
+              </span>
+            ))}
+          </p>
+        </div>
       </div>
 
       {/* Options */}
