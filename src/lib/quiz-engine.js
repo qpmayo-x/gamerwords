@@ -98,6 +98,7 @@ export function generateFillBlank(terms, targetLang, count = 5) {
       type: 'fill_blank',
       question: sentence,
       correctAnswer,
+      hint: term.translations[targetLang],
       options,
       category: term.category,
     }

@@ -46,6 +46,11 @@ export function FillBlank({ question, lang, onAnswer }) {
             </span>
           ))}
         </h2>
+        {question.hint && (
+          <p style={{ color: 'var(--color-accent)', fontSize: 16, fontWeight: 600, marginTop: 12 }}>
+            {'\u{1F4A1}'} {question.hint}
+          </p>
+        )}
       </div>
 
       {/* Options */}
