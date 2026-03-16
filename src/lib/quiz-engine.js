@@ -29,6 +29,19 @@ function pickUniqueAnswers(pool, key, count, exclude) {
   return result
 }
 
+// Pick unique answers preferring same-category terms as distractors.
+// Falls back to other categories if not enough same-category terms exist.
+function pickCategoryAwareAnswers(pool, key, count, exclude, category) {
+  const sameCategory = pool.filter(t => t.category === category)
+  const otherCategory = pool.filter(t => t.category !== category)
+  const result = pickUniqueAnswers(sameCategory, key, count, exclude)
+  if (result.length < count) {
+    const remaining = pickUniqueAnswers(otherCategory, key, count - result.length, [...exclude, ...result])
+    result.push(...remaining)
+  }
+  return result
+}
+
 // Generate multiple choice questions
 // "What does [term] mean in [targetLang]?"
 export function generateMultipleChoice(terms, targetLang, count = 10) {
@@ -40,7 +53,7 @@ export function generateMultipleChoice(terms, targetLang, count = 10) {
   return selected.map(term => {
     const correctAnswer = term.translations[targetLang]
     const wrongPool = available.filter(t => t.term !== term.term)
-    const wrongAnswers = pickUniqueAnswers(wrongPool, t => t.translations[targetLang], 3, [correctAnswer])
+    const wrongAnswers = pickCategoryAwareAnswers(wrongPool, t => t.translations[targetLang], 3, [correctAnswer], term.category)
     const options = shuffle([correctAnswer, ...wrongAnswers])
 
     return {
@@ -65,7 +78,7 @@ export function generateReverse(terms, targetLang, count = 10) {
   return selected.map(term => {
     const correctAnswer = term.term
     const wrongPool = available.filter(t => t.term !== term.term)
-    const wrongAnswers = pickUniqueAnswers(wrongPool, 'term', 3, [correctAnswer])
+    const wrongAnswers = pickCategoryAwareAnswers(wrongPool, 'term', 3, [correctAnswer], term.category)
     const options = shuffle([correctAnswer, ...wrongAnswers])
 
     return {
@@ -90,7 +103,7 @@ export function generateFillBlank(terms, targetLang, count = 5) {
   return selected.map(term => {
     const correctAnswer = term.translations[targetLang]
     const wrongPool = available.filter(t => t.term !== term.term)
-    const wrongAnswers = pickUniqueAnswers(wrongPool, t => t.translations[targetLang], 3, [correctAnswer])
+    const wrongAnswers = pickCategoryAwareAnswers(wrongPool, t => t.translations[targetLang], 3, [correctAnswer], term.category)
     const options = shuffle([correctAnswer, ...wrongAnswers])
 
     return {
