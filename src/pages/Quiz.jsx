@@ -4,8 +4,9 @@ import { generateMixedQuiz, calculateScore } from '../lib/quiz-engine.js'
 import { calculateXP } from '../lib/xp-system.js'
 import { FillBlank } from '../components/FillBlank.jsx'
 import { MatchPairs } from '../components/MatchPairs.jsx'
+import { playCorrect, playWrong } from '../lib/feedback.js'
 
-export function Quiz({ learningLang, difficulty, category, onComplete, onBack, streakDays }) {
+export function Quiz({ learningLang, difficulty, category, reviewMode, onComplete, onBack, streakDays }) {
   const [questions, setQuestions] = useState([])
   const [currentIdx, setCurrentIdx] = useState(0)
   const [answers, setAnswers] = useState([])
@@ -16,9 +17,15 @@ export function Quiz({ learningLang, difficulty, category, onComplete, onBack, s
   const [xpAnimating, setXpAnimating] = useState(false)
 
   useEffect(() => {
-    let terms = difficulty === 'mixed' ? getTermsByDifficulty(null) : getTermsByDifficulty(difficulty)
-    if (category && category !== 'all') {
-      terms = terms.filter(t => t.category === category)
+    let terms
+    if (reviewMode) {
+      const missed = JSON.parse(localStorage.getItem('gw_missed') || '[]')
+      terms = SLANG_TERMS.filter(t => missed.includes(t.term))
+    } else {
+      terms = difficulty === 'mixed' ? getTermsByDifficulty(null) : getTermsByDifficulty(difficulty)
+      if (category && category !== 'all') {
+        terms = terms.filter(t => t.category === category)
+      }
     }
     // Need at least 4 terms for quiz generation
     if (terms.length < 4) {
@@ -26,7 +33,7 @@ export function Quiz({ learningLang, difficulty, category, onComplete, onBack, s
     }
     const q = generateMixedQuiz(terms, learningLang, 10)
     setQuestions(q)
-  }, [learningLang, difficulty, category])
+  }, [learningLang, difficulty, category, reviewMode])
 
   if (questions.length === 0) {
     return <div style={{ textAlign: 'center', color: 'var(--color-text-secondary)', padding: 40 }}>Loading...</div>
@@ -82,7 +89,26 @@ export function Quiz({ learningLang, difficulty, category, onComplete, onBack, s
   const q = questions[currentIdx]
 
   function advance(isCorrect) {
-    setAnswers(prev => [...prev, { question: q.question || 'match', selected: null, correct: null, isCorrect }])
+    if (isCorrect) playCorrect()
+    else playWrong()
+    const termName = q.type === 'match_pairs' ? null : (q.type === 'reverse' ? q.correctAnswer : q.question)
+    setAnswers(prev => [...prev, { question: q.question || 'match', selected: null, correct: null, isCorrect, term: termName }])
+
+    // Save missed terms for review
+    if (!isCorrect && termName) {
+      const missed = JSON.parse(localStorage.getItem('gw_missed') || '[]')
+      if (!missed.includes(termName)) {
+        missed.push(termName)
+        localStorage.setItem('gw_missed', JSON.stringify(missed))
+      }
+    }
+    // Remove from missed if answered correctly
+    if (isCorrect && termName) {
+      const missed = JSON.parse(localStorage.getItem('gw_missed') || '[]')
+      const filtered = missed.filter(t => t !== termName)
+      localStorage.setItem('gw_missed', JSON.stringify(filtered))
+    }
+
     if (currentIdx + 1 >= questions.length) {
       // Calculate XP
       const allAnswers = [...answers, { isCorrect }]

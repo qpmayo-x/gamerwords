@@ -23,8 +23,9 @@ const CATEGORY_LABELS = {
   strategy: { label: 'Strategy', emoji: '\u{1F9E0}' },
 }
 
-export function Home({ streak, todayQuizCount, freeLimit, learningLang, setLearningLang, difficulty, setDifficulty, category, setCategory, onStartQuiz, canQuiz, totalXP }) {
+export function Home({ streak, todayQuizCount, freeLimit, learningLang, setLearningLang, difficulty, setDifficulty, category, setCategory, onStartQuiz, onStartReview, canQuiz, totalXP }) {
   const remaining = freeLimit - todayQuizCount
+  const missedCount = JSON.parse(localStorage.getItem('gw_missed') || '[]').length
 
   return (
     <div>
@@ -151,6 +152,20 @@ export function Home({ streak, todayQuizCount, freeLimit, learningLang, setLearn
       >
         {canQuiz ? '\u{1F3AF} Start Quiz' : 'Daily Limit Reached'}
       </button>
+
+      {/* Review Mode */}
+      {missedCount >= 4 && canQuiz && (
+        <button
+          onClick={onStartReview}
+          style={{
+            width: '100%', padding: 14, borderRadius: 12, border: '2px solid var(--color-warning)',
+            background: 'transparent', color: 'var(--color-warning)',
+            fontSize: 16, fontWeight: 700, cursor: 'pointer', marginBottom: 12,
+          }}
+        >
+          {'\u{1F504}'} Review Mistakes ({missedCount})
+        </button>
+      )}
 
       {/* Remaining */}
       <div style={{ textAlign: 'center', color: remaining <= 2 ? 'var(--color-error)' : 'var(--color-text-secondary)', fontSize: 13 }}>

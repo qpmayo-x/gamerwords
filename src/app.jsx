@@ -83,6 +83,7 @@ export function App() {
     setPage('home')
   }
 
+  const [reviewMode, setReviewMode] = useState(false)
   const canQuiz = todayQuizCount < FREE_QUIZ_LIMIT
 
   return (
@@ -99,7 +100,8 @@ export function App() {
             setDifficulty={setDifficulty}
             category={category}
             setCategory={setCategory}
-            onStartQuiz={() => canQuiz && setPage('quiz')}
+            onStartQuiz={() => { setReviewMode(false); canQuiz && setPage('quiz') }}
+            onStartReview={() => { setReviewMode(true); canQuiz && setPage('quiz') }}
             canQuiz={canQuiz}
             totalXP={totalXP}
           />
@@ -109,6 +111,7 @@ export function App() {
             learningLang={learningLang}
             difficulty={difficulty}
             category={category}
+            reviewMode={reviewMode}
             onComplete={onQuizComplete}
             onBack={() => setPage('home')}
             streakDays={streak.current || 0}
