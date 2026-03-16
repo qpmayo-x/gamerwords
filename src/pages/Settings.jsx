@@ -1,11 +1,14 @@
 import { THEMES } from '../lib/themes.js'
 import { LANGUAGES } from '../lib/slang-data.js'
+import { t } from '../lib/i18n.js'
 
 export function Settings({ currentTheme, setTheme, learningLang, setLearningLang }) {
+  const T = (key) => t(learningLang, key)
+
   return (
     <div>
       <h2 style={{ fontSize: 22, fontWeight: 800, color: 'var(--color-text-primary)', marginBottom: 24 }}>
-        {'\u{2699}\u{FE0F}'} Settings
+        {'\u{2699}\u{FE0F}'} {T('settings')}
       </h2>
 
       {/* Language picker */}
@@ -15,7 +18,7 @@ export function Settings({ currentTheme, setTheme, learningLang, setLearningLang
         marginBottom: 16,
       }}>
         <div style={{ color: 'var(--color-text-secondary)', fontSize: 13, marginBottom: 12, fontWeight: 600 }}>
-          Learning Language
+          {T('learningLanguage')}
         </div>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
           {Object.entries(LANGUAGES).filter(([code]) => code !== 'en').map(([code, lang]) => (
@@ -41,7 +44,7 @@ export function Settings({ currentTheme, setTheme, learningLang, setLearningLang
         border: '1px solid var(--color-border)',
       }}>
         <div style={{ color: 'var(--color-text-secondary)', fontSize: 13, marginBottom: 12, fontWeight: 600 }}>
-          Theme
+          {T('theme')}
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
           {Object.entries(THEMES).map(([id, theme]) => (
@@ -78,12 +81,12 @@ export function Settings({ currentTheme, setTheme, learningLang, setLearningLang
         border: '1px solid var(--color-border)',
       }}>
         <div style={{ color: 'var(--color-text-secondary)', fontSize: 13, fontWeight: 600, marginBottom: 8 }}>
-          About
+          {T('about')}
         </div>
         <div style={{ color: 'var(--color-text-muted)', fontSize: 12, lineHeight: 1.6 }}>
           GamerWords v1.1.0<br />
-          273 slang terms across 9 languages<br />
-          Made for gamers, by gamers
+          {T('termsAcross')}<br />
+          {T('madeFor')}
         </div>
       </div>
     </div>

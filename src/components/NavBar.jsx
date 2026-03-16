@@ -1,8 +1,10 @@
-export function NavBar({ current, onNavigate }) {
+import { t } from '../lib/i18n.js'
+
+export function NavBar({ current, onNavigate, lang }) {
   const tabs = [
-    { id: 'home', label: 'Home', icon: '\u{1F3E0}' },
-    { id: 'dictionary', label: 'Dictionary', icon: '\u{1F4D6}' },
-    { id: 'settings', label: 'Settings', icon: '\u{2699}\u{FE0F}' },
+    { id: 'home', label: t(lang, 'home'), icon: '\u{1F3E0}' },
+    { id: 'dictionary', label: t(lang, 'dictionary'), icon: '\u{1F4D6}' },
+    { id: 'settings', label: t(lang, 'settings'), icon: '\u{2699}\u{FE0F}' },
   ]
 
   return (

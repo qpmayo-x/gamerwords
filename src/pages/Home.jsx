@@ -1,14 +1,15 @@
 import { LANGUAGES, CATEGORIES } from '../lib/slang-data.js'
 import { LevelBadge } from '../components/LevelBadge.jsx'
+import { t } from '../lib/i18n.js'
 
 const DIFFICULTIES = [
-  { id: 'basic', label: 'Basic', desc: '163 terms', emoji: '\u{1F331}' },
-  { id: 'advanced', label: 'Advanced', desc: '110 terms', emoji: '\u{1F525}' },
-  { id: 'mixed', label: 'Mixed', desc: 'All 273 terms', emoji: '\u{1F300}' },
+  { id: 'basic', label: 'Basic', desc: '163', emoji: '\u{1F331}' },
+  { id: 'advanced', label: 'Advanced', desc: '110', emoji: '\u{1F525}' },
+  { id: 'mixed', label: 'Mixed', desc: '273', emoji: '\u{1F300}' },
 ]
 
 const CATEGORY_LABELS = {
-  all: { label: 'All', emoji: '\u{1F30D}' },
+  all: { emoji: '\u{1F30D}' },
   general: { label: 'General', emoji: '\u{1F3AE}' },
   fps: { label: 'FPS', emoji: '\u{1F52B}' },
   moba: { label: 'MOBA', emoji: '\u{1F5E1}\u{FE0F}' },
@@ -26,19 +27,20 @@ const CATEGORY_LABELS = {
 export function Home({ streak, todayQuizCount, freeLimit, learningLang, setLearningLang, difficulty, setDifficulty, category, setCategory, onStartQuiz, onStartReview, canQuiz, totalXP }) {
   const remaining = freeLimit - todayQuizCount
   const missedCount = JSON.parse(localStorage.getItem('gw_missed') || '[]').length
+  const T = (key) => t(learningLang, key)
 
   return (
     <div>
       {/* Header */}
       <div style={{ textAlign: 'center', marginBottom: 24 }}>
         <h1 style={{ fontSize: 28, fontWeight: 800, color: 'var(--color-accent)', margin: '8px 0 4px' }}>
-          GamerWords
+          {T('appTitle')}
         </h1>
-        <p style={{ color: 'var(--color-text-secondary)', fontSize: 14 }}>Learn gaming slang in any language</p>
+        <p style={{ color: 'var(--color-text-secondary)', fontSize: 14 }}>{T('appSubtitle')}</p>
       </div>
 
       {/* Level Badge */}
-      <LevelBadge totalXP={totalXP} />
+      <LevelBadge totalXP={totalXP} lang={learningLang} />
 
       {/* Streak */}
       <div style={{
@@ -50,11 +52,11 @@ export function Home({ streak, todayQuizCount, freeLimit, learningLang, setLearn
           {streak.current || 0}
         </div>
         <div style={{ color: 'var(--color-text-secondary)', fontSize: 13 }}>
-          {streak.current > 0 ? 'Day Streak' : 'Start your streak!'}
+          {streak.current > 0 ? T('dayStreak') : T('startStreak')}
         </div>
         {streak.longest > 0 && (
           <div style={{ color: 'var(--color-text-muted)', fontSize: 11, marginTop: 4 }}>
-            Best: {streak.longest} days
+            {T('best')}: {streak.longest} {T('days')}
           </div>
         )}
       </div>
@@ -64,7 +66,7 @@ export function Home({ streak, todayQuizCount, freeLimit, learningLang, setLearn
         background: 'var(--color-bg-card)', borderRadius: 16, padding: 16,
         marginBottom: 16, border: '1px solid var(--color-border)', boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
       }}>
-        <div style={{ color: 'var(--color-text-secondary)', fontSize: 12, marginBottom: 8 }}>I'm learning:</div>
+        <div style={{ color: 'var(--color-text-secondary)', fontSize: 12, marginBottom: 8 }}>{T('imLearning')}</div>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
           {Object.entries(LANGUAGES).filter(([code]) => code !== 'en').map(([code, lang]) => (
             <button
@@ -88,7 +90,7 @@ export function Home({ streak, todayQuizCount, freeLimit, learningLang, setLearn
         background: 'var(--color-bg-card)', borderRadius: 16, padding: 16,
         marginBottom: 16, border: '1px solid var(--color-border)', boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
       }}>
-        <div style={{ color: 'var(--color-text-secondary)', fontSize: 12, marginBottom: 8 }}>Difficulty:</div>
+        <div style={{ color: 'var(--color-text-secondary)', fontSize: 12, marginBottom: 8 }}>{T('difficulty')}:</div>
         <div style={{ display: 'flex', gap: 8 }}>
           {DIFFICULTIES.map(d => (
             <button
@@ -114,7 +116,7 @@ export function Home({ streak, todayQuizCount, freeLimit, learningLang, setLearn
         background: 'var(--color-bg-card)', borderRadius: 16, padding: 16,
         marginBottom: 16, border: '1px solid var(--color-border)', boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
       }}>
-        <div style={{ color: 'var(--color-text-secondary)', fontSize: 12, marginBottom: 8 }}>Category:</div>
+        <div style={{ color: 'var(--color-text-secondary)', fontSize: 12, marginBottom: 8 }}>{T('category')}:</div>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
           {['all', ...CATEGORIES].map(cat => {
             const info = CATEGORY_LABELS[cat] || { label: cat, emoji: '' }
@@ -131,7 +133,7 @@ export function Home({ streak, todayQuizCount, freeLimit, learningLang, setLearn
                   transition: 'all 0.2s',
                 }}
               >
-                {info.emoji} {info.label}
+                {info.emoji} {cat === 'all' ? T('all') : info.label}
               </button>
             )
           })}
@@ -151,7 +153,7 @@ export function Home({ streak, todayQuizCount, freeLimit, learningLang, setLearn
           marginBottom: 12,
         }}
       >
-        {canQuiz ? '\u{1F3AF} Start Quiz' : 'Daily Limit Reached'}
+        {canQuiz ? `\u{1F3AF} ${T('startQuiz')}` : T('dailyLimitReached')}
       </button>
 
       {/* Review Mode */}
@@ -164,13 +166,13 @@ export function Home({ streak, todayQuizCount, freeLimit, learningLang, setLearn
             fontSize: 16, fontWeight: 700, cursor: 'pointer', marginBottom: 12,
           }}
         >
-          {'\u{1F504}'} Review Mistakes ({missedCount})
+          {'\u{1F504}'} {T('reviewMistakes')} ({missedCount})
         </button>
       )}
 
       {/* Remaining */}
       <div style={{ textAlign: 'center', color: remaining <= 2 ? 'var(--color-error)' : 'var(--color-text-secondary)', fontSize: 13 }}>
-        {remaining} / {freeLimit} quizzes remaining today
+        {remaining} / {freeLimit} {T('quizzesRemaining')}
         {!canQuiz && (
           <div style={{ marginTop: 8 }}>
             <button style={{
@@ -178,7 +180,7 @@ export function Home({ streak, todayQuizCount, freeLimit, learningLang, setLearn
               color: '#fff', border: 'none', borderRadius: 8,
               padding: '10px 20px', fontSize: 14, fontWeight: 600, cursor: 'pointer',
             }}>
-              Upgrade to Pro — Unlimited
+              {T('upgradePro')}
             </button>
           </div>
         )}

@@ -5,6 +5,7 @@ import { calculateXP } from '../lib/xp-system.js'
 import { FillBlank } from '../components/FillBlank.jsx'
 import { MatchPairs } from '../components/MatchPairs.jsx'
 import { playCorrect, playWrong } from '../lib/feedback.js'
+import { t } from '../lib/i18n.js'
 
 export function Quiz({ learningLang, difficulty, category, reviewMode, onComplete, onBack, streakDays }) {
   const [questions, setQuestions] = useState([])
@@ -39,7 +40,7 @@ export function Quiz({ learningLang, difficulty, category, reviewMode, onComplet
     return (
       <div style={{ textAlign: 'center', padding: 40 }}>
         <div class="spinner" />
-        <p style={{ color: 'var(--color-text-secondary)', marginTop: 16, fontSize: 14 }}>Loading quiz...</p>
+        <p style={{ color: 'var(--color-text-secondary)', marginTop: 16, fontSize: 14 }}>{t(learningLang, 'loading')}</p>
       </div>
     )
   }
@@ -73,9 +74,9 @@ export function Quiz({ learningLang, difficulty, category, reviewMode, onComplet
         </div>
 
         <p style={{ color: 'var(--color-text-secondary)', fontSize: 14, marginBottom: 24 }}>
-          {score.percentage >= 80 ? 'Amazing! You speak gamer!' :
-           score.percentage >= 50 ? 'Good job! Keep practicing!' :
-           "Don't give up! Try again!"}
+          {score.percentage >= 80 ? t(learningLang, 'amazing') :
+           score.percentage >= 50 ? t(learningLang, 'goodJob') :
+           t(learningLang, 'dontGiveUp')}
         </p>
         <button
           onClick={() => onComplete(score, earnedXP)}
@@ -85,7 +86,7 @@ export function Quiz({ learningLang, difficulty, category, reviewMode, onComplet
             fontWeight: 700, cursor: 'pointer',
           }}
         >
-          Done
+          {t(learningLang, 'done')}
         </button>
       </div>
     )
@@ -135,7 +136,7 @@ export function Quiz({ learningLang, difficulty, category, reviewMode, onComplet
       <div>
         {renderProgressBar()}
         <div class="page-enter" key={currentIdx}>
-          <FillBlank question={q} onAnswer={(isCorrect) => advance(isCorrect)} />
+          <FillBlank question={q} lang={learningLang} onAnswer={(isCorrect) => advance(isCorrect)} />
         </div>
       </div>
     )
@@ -147,7 +148,7 @@ export function Quiz({ learningLang, difficulty, category, reviewMode, onComplet
       <div>
         {renderProgressBar()}
         <div class="page-enter" key={currentIdx}>
-        <MatchPairs question={q} onAnswer={(correctCount) => {
+        <MatchPairs question={q} lang={learningLang} onAnswer={(correctCount) => {
           const isCorrect = correctCount === q.pairs.length
           advance(isCorrect)
         }} />
@@ -201,7 +202,7 @@ export function Quiz({ learningLang, difficulty, category, reviewMode, onComplet
       {/* Question */}
       <div style={{ textAlign: 'center', marginBottom: 32 }}>
         <p style={{ color: 'var(--color-text-secondary)', fontSize: 13, marginBottom: 8 }}>
-          {isReverse ? 'Which English term means...' : 'What does this mean?'}
+          {isReverse ? t(learningLang, 'whichTermMeans') : t(learningLang, 'whatDoesMean')}
         </p>
         <h2 style={{ fontSize: 28, fontWeight: 800, color: 'var(--color-text-primary)' }}>
           {q.question}

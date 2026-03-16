@@ -1,9 +1,11 @@
 import { useState } from 'preact/hooks'
 import { SLANG_TERMS, CATEGORIES, LANGUAGES } from '../lib/slang-data.js'
+import { t } from '../lib/i18n.js'
 
 export function Dictionary({ learningLang }) {
   const [search, setSearch] = useState('')
   const [category, setCategory] = useState(null)
+  const T = (key) => t(learningLang, key)
 
   const filtered = SLANG_TERMS.filter(term => {
     if (search && !term.term.toLowerCase().includes(search.toLowerCase())) return false
@@ -14,7 +16,7 @@ export function Dictionary({ learningLang }) {
   return (
     <div>
       <h2 style={{ fontSize: 22, fontWeight: 800, color: 'var(--color-text-primary)', marginBottom: 16 }}>
-        {'\u{1F4D6}'} Slang Dictionary
+        {'\u{1F4D6}'} {T('slangDictionary')}
       </h2>
 
       {/* Search */}
@@ -22,7 +24,7 @@ export function Dictionary({ learningLang }) {
         type="text"
         value={search}
         onInput={e => setSearch(e.target.value)}
-        placeholder="Search slang..."
+        placeholder={T('searchSlang')}
         style={{
           width: '100%', padding: '12px 16px', borderRadius: 10, border: '1px solid var(--color-border)',
           background: 'var(--color-bg-card)', color: 'var(--color-text-primary)', fontSize: 15, marginBottom: 12,
@@ -40,7 +42,7 @@ export function Dictionary({ learningLang }) {
             background: !category ? 'var(--color-accent)' : 'var(--color-border)',
             color: !category ? '#fff' : 'var(--color-text-secondary)',
           }}
-        >All ({SLANG_TERMS.length})</button>
+        >{T('all')} ({SLANG_TERMS.length})</button>
         {CATEGORIES.map(cat => {
           const count = SLANG_TERMS.filter(t => t.category === cat).length
           return (
@@ -90,7 +92,7 @@ export function Dictionary({ learningLang }) {
         ))}
         {filtered.length === 0 && (
           <div style={{ textAlign: 'center', color: 'var(--color-text-muted)', padding: 32 }}>
-            No terms found
+            {T('noTermsFound')}
           </div>
         )}
       </div>

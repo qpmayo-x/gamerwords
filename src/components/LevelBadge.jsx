@@ -1,6 +1,7 @@
 import { getLevelFromXP } from '../lib/xp-system.js'
+import { t } from '../lib/i18n.js'
 
-export function LevelBadge({ totalXP }) {
+export function LevelBadge({ totalXP, lang }) {
   const info = getLevelFromXP(totalXP)
 
   return (
@@ -43,7 +44,7 @@ export function LevelBadge({ totalXP }) {
         <div style={{
           fontSize: 11, color: 'var(--color-text-muted)', marginTop: 6, textAlign: 'right',
         }}>
-          {info.currentXP} / {info.nextLevelXP} XP to next level
+          {info.currentXP} / {info.nextLevelXP} {t(lang, 'xpToNext')}
         </div>
       )}
     </div>

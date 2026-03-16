@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'preact/hooks'
+import { t } from '../lib/i18n.js'
 
 function shuffleArray(arr) {
   const a = [...arr]
@@ -9,7 +10,7 @@ function shuffleArray(arr) {
   return a
 }
 
-export function MatchPairs({ question, onAnswer }) {
+export function MatchPairs({ question, lang, onAnswer }) {
   const [shuffledTranslations, setShuffledTranslations] = useState([])
   const [selectedTerm, setSelectedTerm] = useState(null)
   const [selectedTranslation, setSelectedTranslation] = useState(null)
@@ -58,10 +59,10 @@ export function MatchPairs({ question, onAnswer }) {
     <div>
       <div style={{ textAlign: 'center', marginBottom: 24 }}>
         <p style={{ color: 'var(--color-text-secondary)', fontSize: 13, marginBottom: 8 }}>
-          Match the pairs:
+          {t(lang, 'matchPairs')}
         </p>
         <p style={{ color: 'var(--color-text-muted)', fontSize: 12 }}>
-          Tap a term, then tap its translation
+          {t(lang, 'tapToMatch')}
         </p>
       </div>
 

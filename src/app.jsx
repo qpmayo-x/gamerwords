@@ -126,7 +126,7 @@ export function App() {
         )}
         </div>
       </main>
-      <NavBar current={page} onNavigate={setPage} />
+      <NavBar current={page} onNavigate={setPage} lang={learningLang} />
     </>
   )
 }

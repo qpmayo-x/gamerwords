@@ -1,6 +1,7 @@
 import { useState } from 'preact/hooks'
+import { t } from '../lib/i18n.js'
 
-export function FillBlank({ question, onAnswer }) {
+export function FillBlank({ question, lang, onAnswer }) {
   const [selected, setSelected] = useState(null)
   const [showResult, setShowResult] = useState(false)
 
@@ -20,7 +21,7 @@ export function FillBlank({ question, onAnswer }) {
       {/* Sentence with blank */}
       <div style={{ textAlign: 'center', marginBottom: 32 }}>
         <p style={{ color: 'var(--color-text-secondary)', fontSize: 13, marginBottom: 8 }}>
-          Fill in the blank:
+          {t(lang, 'fillBlank')}
         </p>
         <h2 style={{
           fontSize: 22, fontWeight: 700, color: 'var(--color-text-primary)',
