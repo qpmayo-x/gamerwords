@@ -52,7 +52,7 @@ export function FillBlank({ question, lang, onAnswer }) {
             )}"
           </p>
           {(() => {
-            const langKey = { ja: 'exampleJa', ko: 'exampleKo', zh: 'exampleZh', es: 'exampleEs', pt: 'examplePt' }[lang]
+            const langKey = { ja: 'exampleJa', ko: 'exampleKo', zh: 'exampleZh', es: 'exampleEs', pt: 'examplePt', ru: 'exampleRu', de: 'exampleDe', fr: 'exampleFr', hi: 'exampleHi' }[lang]
             const translated = langKey && question[langKey]
             return translated ? (
               <p style={{
