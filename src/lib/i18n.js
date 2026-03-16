@@ -414,3 +414,21 @@ export function getLevelTitle(lang, levelIndex) {
   const titles = LEVEL_TITLES[lang] || LEVEL_TITLES.en
   return titles[levelIndex] || LEVEL_TITLES.en[levelIndex] || 'Noob'
 }
+
+// Localized theme names
+const THEME_NAMES = {
+  en: { midnight: 'Midnight', cyberpunk: 'Cyberpunk', sakura: 'Sakura', ocean: 'Ocean', fire: 'Fire', forest: 'Forest' },
+  ja: { midnight: 'ミッドナイト', cyberpunk: 'サイバーパンク', sakura: 'サクラ', ocean: 'オーシャン', fire: 'ファイア', forest: 'フォレスト' },
+  ko: { midnight: '미드나이트', cyberpunk: '사이버펑크', sakura: '사쿠라', ocean: '오션', fire: '파이어', forest: '포레스트' },
+  zh: { midnight: '午夜', cyberpunk: '赛博朋克', sakura: '樱花', ocean: '海洋', fire: '烈焰', forest: '森林' },
+  es: { midnight: 'Medianoche', cyberpunk: 'Cyberpunk', sakura: 'Sakura', ocean: 'Océano', fire: 'Fuego', forest: 'Bosque' },
+  pt: { midnight: 'Meia-noite', cyberpunk: 'Cyberpunk', sakura: 'Sakura', ocean: 'Oceano', fire: 'Fogo', forest: 'Floresta' },
+  ru: { midnight: 'Полночь', cyberpunk: 'Киберпанк', sakura: 'Сакура', ocean: 'Океан', fire: 'Огонь', forest: 'Лес' },
+  de: { midnight: 'Mitternacht', cyberpunk: 'Cyberpunk', sakura: 'Sakura', ocean: 'Ozean', fire: 'Feuer', forest: 'Wald' },
+  fr: { midnight: 'Minuit', cyberpunk: 'Cyberpunk', sakura: 'Sakura', ocean: 'Océan', fire: 'Feu', forest: 'Forêt' },
+  hi: { midnight: 'मिडनाइट', cyberpunk: 'साइबरपंक', sakura: 'साकुरा', ocean: 'समुद्र', fire: 'आग', forest: 'जंगल' },
+}
+
+export function getThemeName(lang, themeId) {
+  return THEME_NAMES[lang]?.[themeId] || THEME_NAMES.en[themeId] || themeId
+}

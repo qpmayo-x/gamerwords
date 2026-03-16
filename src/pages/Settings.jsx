@@ -1,6 +1,6 @@
 import { THEMES } from '../lib/themes.js'
 import { LANGUAGES } from '../lib/slang-data.js'
-import { t } from '../lib/i18n.js'
+import { t, getThemeName } from '../lib/i18n.js'
 
 export function Settings({ currentTheme, setTheme, learningLang, setLearningLang }) {
   const T = (key) => t(learningLang, key)
@@ -61,7 +61,7 @@ export function Settings({ currentTheme, setTheme, learningLang, setLearningLang
             >
               <span style={{ fontSize: 24 }}>{theme.emoji}</span>
               <div style={{ textAlign: 'left' }}>
-                <div style={{ fontSize: 14, fontWeight: 700, color: theme.textPrimary }}>{theme.name}</div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: theme.textPrimary }}>{getThemeName(learningLang, id)}</div>
                 <div style={{ display: 'flex', gap: 3, marginTop: 4 }}>
                   {[theme.accent, theme.success, theme.error, theme.warning].map((c, i) => (
                     <div key={i} style={{
