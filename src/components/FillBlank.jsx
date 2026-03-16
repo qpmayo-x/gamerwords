@@ -51,14 +51,18 @@ export function FillBlank({ question, lang, onAnswer }) {
                 : <span key={i}>{part}</span>
             )}"
           </p>
-          {lang === 'ja' && question.exampleJa && (
-            <p style={{
-              fontSize: 13, color: 'var(--color-text-muted)',
-              marginTop: 8, lineHeight: 1.5,
-            }}>
-              {question.exampleJa}
-            </p>
-          )}
+          {(() => {
+            const langKey = { ja: 'exampleJa', ko: 'exampleKo', zh: 'exampleZh', es: 'exampleEs', pt: 'examplePt' }[lang]
+            const translated = langKey && question[langKey]
+            return translated ? (
+              <p style={{
+                fontSize: 13, color: 'var(--color-text-muted)',
+                marginTop: 8, lineHeight: 1.5,
+              }}>
+                {translated}
+              </p>
+            ) : null
+          })()}
         </div>
       </div>
 
