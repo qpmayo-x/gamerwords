@@ -395,3 +395,22 @@ const UI_STRINGS = {
 export function t(lang, key) {
   return UI_STRINGS[lang]?.[key] || UI_STRINGS.en[key] || key
 }
+
+// Localized level titles
+const LEVEL_TITLES = {
+  en: ['Noob', 'Casual', 'Regular', 'Tryhard', 'Veteran', 'Cracked', 'Goated', 'Pro', 'Legend', 'God Gamer'],
+  ja: ['初心者', 'カジュアル', 'レギュラー', 'ガチ勢', 'ベテラン', 'うますぎ', '神', 'プロ', '伝説', 'ゴッドゲーマー'],
+  ko: ['뉴비', '캐주얼', '레귤러', '빡겜러', '베테랑', '미쳤다', '갓', '프로', '전설', '갓겜러'],
+  zh: ['菜鸟', '休闲', '常客', '卷王', '老手', '太强了', '神', '职业', '传说', '神级玩家'],
+  es: ['Novato', 'Casual', 'Regular', 'Tryhard', 'Veterano', 'Crack', 'GOATed', 'Pro', 'Leyenda', 'Dios Gamer'],
+  pt: ['Noob', 'Casual', 'Regular', 'Tryhard', 'Veterano', 'Absurdo', 'Craque', 'Pro', 'Lenda', 'Deus Gamer'],
+  ru: ['Нуб', 'Казуал', 'Игрок', 'Трайхард', 'Ветеран', 'Имба', 'Легенда', 'Про', 'Мифический', 'Бог Игры'],
+  de: ['Noob', 'Casual', 'Regular', 'Tryhard', 'Veteran', 'Krass', 'Legende', 'Pro', 'Mythisch', 'Gott-Gamer'],
+  fr: ['Noob', 'Casual', 'Régulier', 'Tryhard', 'Vétéran', 'Cassé', 'GOAT', 'Pro', 'Légende', 'Dieu Gamer'],
+  hi: ['नौसिखिया', 'कैजुअल', 'रेगुलर', 'ट्राईहार्ड', 'वेटरन', 'OP', 'गॉड', 'प्रो', 'लीजेंड', 'गॉड गेमर'],
+}
+
+export function getLevelTitle(lang, levelIndex) {
+  const titles = LEVEL_TITLES[lang] || LEVEL_TITLES.en
+  return titles[levelIndex] || LEVEL_TITLES.en[levelIndex] || 'Noob'
+}

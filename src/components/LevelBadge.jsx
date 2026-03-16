@@ -1,8 +1,9 @@
 import { getLevelFromXP } from '../lib/xp-system.js'
-import { t } from '../lib/i18n.js'
+import { t, getLevelTitle } from '../lib/i18n.js'
 
 export function LevelBadge({ totalXP, lang }) {
   const info = getLevelFromXP(totalXP)
+  const localizedTitle = getLevelTitle(lang, info.level - 1)
 
   return (
     <div style={{
@@ -19,7 +20,7 @@ export function LevelBadge({ totalXP, lang }) {
           <span style={{
             fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)',
           }}>
-            {info.title}
+            {localizedTitle}
           </span>
         </div>
         <span style={{ fontSize: 12, color: 'var(--color-text-muted)' }}>
