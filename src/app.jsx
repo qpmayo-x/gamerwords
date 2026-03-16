@@ -28,6 +28,9 @@ export function App() {
   const [difficulty, setDifficulty] = useState(() => {
     return localStorage.getItem('gw_difficulty') || 'basic'
   })
+  const [category, setCategory] = useState(() => {
+    return localStorage.getItem('gw_category') || 'all'
+  })
 
   // Apply theme on mount and change
   useEffect(() => {
@@ -42,6 +45,10 @@ export function App() {
   useEffect(() => {
     localStorage.setItem('gw_difficulty', difficulty)
   }, [difficulty])
+
+  useEffect(() => {
+    localStorage.setItem('gw_category', category)
+  }, [category])
 
   const FREE_QUIZ_LIMIT = 5
 
@@ -90,6 +97,8 @@ export function App() {
             setLearningLang={setLearningLang}
             difficulty={difficulty}
             setDifficulty={setDifficulty}
+            category={category}
+            setCategory={setCategory}
             onStartQuiz={() => canQuiz && setPage('quiz')}
             canQuiz={canQuiz}
             totalXP={totalXP}
@@ -99,6 +108,7 @@ export function App() {
           <Quiz
             learningLang={learningLang}
             difficulty={difficulty}
+            category={category}
             onComplete={onQuizComplete}
             onBack={() => setPage('home')}
             streakDays={streak.current || 0}

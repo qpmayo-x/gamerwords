@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'preact/hooks'
-import { SLANG_TERMS, getTermsByDifficulty } from '../lib/slang-data.js'
+import { SLANG_TERMS, getTermsByDifficulty, getTermsByCategory } from '../lib/slang-data.js'
 import { generateMixedQuiz, calculateScore } from '../lib/quiz-engine.js'
 import { calculateXP } from '../lib/xp-system.js'
 import { FillBlank } from '../components/FillBlank.jsx'
 import { MatchPairs } from '../components/MatchPairs.jsx'
 
-export function Quiz({ learningLang, difficulty, onComplete, onBack, streakDays }) {
+export function Quiz({ learningLang, difficulty, category, onComplete, onBack, streakDays }) {
   const [questions, setQuestions] = useState([])
   const [currentIdx, setCurrentIdx] = useState(0)
   const [answers, setAnswers] = useState([])
@@ -16,10 +16,17 @@ export function Quiz({ learningLang, difficulty, onComplete, onBack, streakDays 
   const [xpAnimating, setXpAnimating] = useState(false)
 
   useEffect(() => {
-    const terms = difficulty === 'mixed' ? getTermsByDifficulty(null) : getTermsByDifficulty(difficulty)
+    let terms = difficulty === 'mixed' ? getTermsByDifficulty(null) : getTermsByDifficulty(difficulty)
+    if (category && category !== 'all') {
+      terms = terms.filter(t => t.category === category)
+    }
+    // Need at least 4 terms for quiz generation
+    if (terms.length < 4) {
+      terms = difficulty === 'mixed' ? getTermsByDifficulty(null) : getTermsByDifficulty(difficulty)
+    }
     const q = generateMixedQuiz(terms, learningLang, 10)
     setQuestions(q)
-  }, [learningLang, difficulty])
+  }, [learningLang, difficulty, category])
 
   if (questions.length === 0) {
     return <div style={{ textAlign: 'center', color: 'var(--color-text-secondary)', padding: 40 }}>Loading...</div>

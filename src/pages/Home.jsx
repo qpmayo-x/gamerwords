@@ -1,4 +1,4 @@
-import { LANGUAGES } from '../lib/slang-data.js'
+import { LANGUAGES, CATEGORIES } from '../lib/slang-data.js'
 import { LevelBadge } from '../components/LevelBadge.jsx'
 
 const DIFFICULTIES = [
@@ -7,7 +7,23 @@ const DIFFICULTIES = [
   { id: 'mixed', label: 'Mixed', desc: 'All 273 terms', emoji: '\u{1F300}' },
 ]
 
-export function Home({ streak, todayQuizCount, freeLimit, learningLang, setLearningLang, difficulty, setDifficulty, onStartQuiz, canQuiz, totalXP }) {
+const CATEGORY_LABELS = {
+  all: { label: 'All', emoji: '\u{1F30D}' },
+  general: { label: 'General', emoji: '\u{1F3AE}' },
+  fps: { label: 'FPS', emoji: '\u{1F52B}' },
+  moba: { label: 'MOBA', emoji: '\u{1F5E1}\u{FE0F}' },
+  mmo: { label: 'MMO', emoji: '\u{1F30D}' },
+  battleroyale: { label: 'BR', emoji: '\u{1F4A5}' },
+  fighting: { label: 'Fighting', emoji: '\u{1F94A}' },
+  social: { label: 'Social', emoji: '\u{1F4AC}' },
+  attitude: { label: 'Attitude', emoji: '\u{1F608}' },
+  technical: { label: 'Tech', emoji: '\u{2699}\u{FE0F}' },
+  economy: { label: 'Economy', emoji: '\u{1F4B0}' },
+  speedrun: { label: 'Speedrun', emoji: '\u{23F1}\u{FE0F}' },
+  strategy: { label: 'Strategy', emoji: '\u{1F9E0}' },
+}
+
+export function Home({ streak, todayQuizCount, freeLimit, learningLang, setLearningLang, difficulty, setDifficulty, category, setCategory, onStartQuiz, canQuiz, totalXP }) {
   const remaining = freeLimit - todayQuizCount
 
   return (
@@ -89,6 +105,35 @@ export function Home({ streak, todayQuizCount, freeLimit, learningLang, setLearn
               <div style={{ fontSize: 10, opacity: 0.7, marginTop: 2 }}>{d.desc}</div>
             </button>
           ))}
+        </div>
+      </div>
+
+      {/* Category Picker */}
+      <div style={{
+        background: 'var(--color-bg-card)', borderRadius: 16, padding: 16,
+        marginBottom: 16, border: '1px solid var(--color-border)',
+      }}>
+        <div style={{ color: 'var(--color-text-secondary)', fontSize: 12, marginBottom: 8 }}>Category:</div>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+          {['all', ...CATEGORIES].map(cat => {
+            const info = CATEGORY_LABELS[cat] || { label: cat, emoji: '' }
+            const active = cat === category
+            return (
+              <button
+                key={cat}
+                onClick={() => setCategory(cat)}
+                style={{
+                  padding: '5px 10px', borderRadius: 8, border: 'none', cursor: 'pointer',
+                  fontSize: 12, fontWeight: active ? 700 : 400,
+                  background: active ? 'var(--color-accent)' : 'var(--color-border)',
+                  color: active ? '#fff' : 'var(--color-text-secondary)',
+                  transition: 'all 0.2s',
+                }}
+              >
+                {info.emoji} {info.label}
+              </button>
+            )
+          })}
         </div>
       </div>
 
