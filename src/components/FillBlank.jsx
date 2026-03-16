@@ -51,6 +51,14 @@ export function FillBlank({ question, lang, onAnswer }) {
                 : <span key={i}>{part}</span>
             )}"
           </p>
+          {lang === 'ja' && question.exampleJa && (
+            <p style={{
+              fontSize: 13, color: 'var(--color-text-muted)',
+              marginTop: 8, lineHeight: 1.5,
+            }}>
+              {question.exampleJa}
+            </p>
+          )}
         </div>
       </div>
 

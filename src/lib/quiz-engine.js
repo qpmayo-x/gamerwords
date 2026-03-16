@@ -110,6 +110,7 @@ export function generateFillBlank(terms, targetLang, count = 5) {
       type: 'fill_blank',
       term: term.term,
       question: term.example,
+      exampleJa: term.exampleJa || '',
       correctAnswer,
       options,
       category: term.category,
